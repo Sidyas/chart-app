@@ -1,6 +1,8 @@
 import Head from 'next/head';
-import { Layout } from 'antd';
-import Title from 'antd/es/typography/Title';
+import { Layout, Typography } from 'antd';
+import CustomChart from '@/components/CustomChart';
+
+const { Title } = Typography;
 
 const { Header, Content } = Layout;
 
@@ -8,14 +10,17 @@ const headerStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   backgroundColor: '#fff',
+  height: '4rem',
 };
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   minHeight: 120,
-  lineHeight: '120px',
-  color: '#fff',
+  // lineHeight: '120px',
+  color: '#000',
   backgroundColor: '#eee',
+  display: 'flex',
+  flexDirection: 'row',
 };
 
 export default function Home(): JSX.Element {
@@ -45,7 +50,10 @@ export default function Home(): JSX.Element {
             App Title
           </Title>
         </Header>
-        <Content style={contentStyle}></Content>
+        <Content style={contentStyle}>
+          <CustomChart></CustomChart>
+          <CustomChart></CustomChart>
+        </Content>
       </Layout>
     </>
   );
