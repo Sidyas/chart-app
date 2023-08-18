@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { Layout, Typography } from 'antd';
+import { Layout, Typography, Button, Space } from 'antd';
+import { DownloadOutlined, FunnelPlotOutlined, MenuOutlined } from '@ant-design/icons';
 import CustomChart from '@/components/CustomChart';
 
 const { Title } = Typography;
@@ -11,17 +12,29 @@ const headerStyle: React.CSSProperties = {
   alignItems: 'center',
   backgroundColor: '#fff',
   height: '4rem',
+  boxShadow: '0px 2px 9px #ccc',
+  zIndex: '999',
 };
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   minHeight: 120,
-  // lineHeight: '120px',
   color: '#000',
   backgroundColor: '#eee',
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
+  padding: '0 5rem 2rem ',
 };
+
+const subHeaderStyle: React.CSSProperties = {
+  display: 'flex',
+  width: '100%',
+  justifyContent: 'space-between',
+  padding: '2rem 0',
+  height: 'fit-content',
+};
+
+const graphWrapperStyle: React.CSSProperties = { display: 'flex', justifyContent: 'space-between' };
 
 export default function Home(): JSX.Element {
   return (
@@ -47,12 +60,30 @@ export default function Home(): JSX.Element {
             level={1}
             style={{ fontSize: '1.6rem', margin: '0' }}
           >
-            App Title
+            Chart App
           </Title>
         </Header>
         <Content style={contentStyle}>
-          <CustomChart></CustomChart>
-          <CustomChart></CustomChart>
+          <div style={subHeaderStyle}>
+            <h2>Latest Graphs</h2>
+            <div>
+              <Space direction="horizontal">
+                <Button>
+                  Export to PDF <DownloadOutlined />
+                </Button>
+                <Button>
+                  Notes <MenuOutlined />
+                </Button>
+                <Button>
+                  Filter <FunnelPlotOutlined />
+                </Button>
+              </Space>
+            </div>
+          </div>
+          <div style={graphWrapperStyle}>
+            <CustomChart />
+            <CustomChart type="pie" />
+          </div>
         </Content>
       </Layout>
     </>
