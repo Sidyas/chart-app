@@ -1,8 +1,7 @@
 import { CoronaData } from '@/utils/types';
-import { ProfileOutlined, UserOutlined } from '@ant-design/icons';
+import { HeartFilled, HeartOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { Chart } from '@antv/g2';
-import { Avatar } from 'antd';
-import axios from 'axios';
+import { Avatar, Button, Space } from 'antd';
 import { useEffect, useRef } from 'react';
 
 type ChartProps = {
@@ -10,6 +9,8 @@ type ChartProps = {
   height?: number;
   type?: 'bar' | 'pie';
   data: CoronaData[];
+  isFavorite: boolean | undefined;
+  toggleFavorite: () => void;
 };
 
 const graphWrapperStyle = {
@@ -28,6 +29,8 @@ export default function CustomChart({
   height = 400,
   type = 'bar',
   data,
+  isFavorite = false,
+  toggleFavorite,
 }: ChartProps): JSX.Element {
   const container = useRef({} as HTMLDivElement);
   const chart = useRef<Chart | null>(null);
@@ -86,8 +89,29 @@ export default function CustomChart({
         style={{ padding: '1rem' }}
       ></div>
       <div style={graphFooterStyle}>
-        <Avatar icon={<UserOutlined />} />
-        <ProfileOutlined style={{ fontSize: '1.6rem' }} />
+        <Space direction="horizontal">
+          <Avatar icon={<UserOutlined />} />
+          {isFavorite ? (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<HeartFilled />}
+              onClick={toggleFavorite}
+            />
+          ) : (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<HeartOutlined />}
+              onClick={toggleFavorite}
+            />
+          )}
+        </Space>
+        <Space style={{ color: '#bfbfbf', fontSize: '1.4rem' }}>
+          <span>
+            3 <ProfileOutlined style={{ fontSize: '1.6rem' }} />
+          </span>
+        </Space>
       </div>
     </div>
   );

@@ -2,6 +2,9 @@ import { z } from 'zod';
 import { procedure, router } from '../trpc';
 import axios from 'axios';
 import { CoronaResponse } from '@/utils/types';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const appRouter = router({
   getCoronaData: procedure.query(async () => {
@@ -11,6 +14,28 @@ export const appRouter = router({
 
     return {
       data: derivedItems,
+    };
+  }),
+  setFavoriteChart: procedure
+    .input(z.object({ chartId: z.number(), value: z.boolean() }))
+    .mutation(async ({ input }) => {
+      const { chartId, value } = input;
+
+      const data = await prisma.favoriteCharts.update({
+        where: {
+          id: chartId,
+        },
+        data: {
+          isFavorite: value,
+        },
+      });
+
+      return data;
+    }),
+  getFavoriteCharts: procedure.query(async () => {
+    const favoriteCharts = await prisma.favoriteCharts.findMany();
+    return {
+      data: favoriteCharts,
     };
   }),
 });

@@ -44,7 +44,25 @@ const spinnerWrapperStyle: React.CSSProperties = {
 };
 
 export default function Home(): JSX.Element {
-  const chartData = trpc.getCoronaData.useQuery();
+  const chartData = trpc.getCoronaData.useQuery(undefined, { refetchOnWindowFocus: false });
+  const favoriteCharts = trpc.getFavoriteCharts.useQuery();
+
+  const utils = trpc.useContext();
+
+  const updateFavourite = trpc.setFavoriteChart.useMutation({
+    onSuccess(_data) {
+      utils.getFavoriteCharts.invalidate();
+    },
+  });
+
+  function toggleFavourite(chartId: number) {
+    const value = !favoriteCharts.data?.data.find((val) => val.id === chartId)?.isFavorite;
+    updateFavourite.mutate({ chartId, value });
+  }
+
+  function getFavoriteValue(chartId: number) {
+    return favoriteCharts.data?.data.find((val) => val.id === chartId)?.isFavorite;
+  }
 
   return (
     <>
@@ -86,10 +104,20 @@ export default function Home(): JSX.Element {
           </div>
           {chartData.data?.data ? (
             <div style={graphWrapperStyle}>
-              <CustomChart data={chartData.data?.data} />
+              <CustomChart
+                data={chartData.data?.data}
+                isFavorite={getFavoriteValue(1)}
+                toggleFavorite={() => {
+                  toggleFavourite(1);
+                }}
+              />
               <CustomChart
                 data={chartData.data?.data}
                 type="pie"
+                isFavorite={getFavoriteValue(2)}
+                toggleFavorite={() => {
+                  toggleFavourite(2);
+                }}
               />
             </div>
           ) : (
