@@ -9,6 +9,7 @@ type ChartProps = {
   width?: number;
   height?: number;
   type?: 'bar' | 'pie';
+  data: CoronaData[];
 };
 
 const graphWrapperStyle = {
@@ -26,6 +27,7 @@ export default function CustomChart({
   width = 700,
   height = 400,
   type = 'bar',
+  data,
 }: ChartProps): JSX.Element {
   const container = useRef({} as HTMLDivElement);
   const chart = useRef<Chart | null>(null);
@@ -36,9 +38,6 @@ export default function CustomChart({
 
   async function renderChart() {
     if (!chart.current) {
-      const response = await axios.get('/api/coronaData');
-      const data = response.data;
-
       if (type === 'bar') {
         chart.current = renderBarChart(container.current, data);
       } else {

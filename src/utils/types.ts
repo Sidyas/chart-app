@@ -1,5 +1,5 @@
 export type CoronaData = {
-  date: Date;
+  date: string;
   areaName: string;
   areaCode: string;
   confirmedRate: number;

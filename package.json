@@ -11,6 +11,11 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@antv/g2": "^4.0.14",
+    "@tanstack/react-query": "^4.32.6",
+    "@trpc/client": "^10.37.1",
+    "@trpc/next": "^10.37.1",
+    "@trpc/react-query": "^10.37.1",
+    "@trpc/server": "^10.37.1",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
@@ -21,7 +26,8 @@
     "next": "13.4.17",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "zod": "^3.22.1"
   },
   "overrides": {
     "d3-interpolate": "2.0.1"
